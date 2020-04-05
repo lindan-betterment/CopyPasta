@@ -10,53 +10,40 @@ import Cocoa
 import PINCache
 
 class ClipViewController: NSViewController {
+    // TODO: Refresh with new clips?
     let delegate = (NSApplication.shared.delegate) as! AppDelegate
     lazy var clip_keys = delegate.pasteboardItemTimeStamps
-    @IBOutlet var textLabel: NSTextField!
-    
-    var currentClipIndex: Int = 0 {
-      didSet {
-        updateClip()
-      }
-    }
+    @IBOutlet weak var tableView: NSTableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        currentClipIndex = 0
+        // Register observer notification
+        //NotificationCenter.default.addObserver(self, selector: #selector(updateClip), name: NSNotification.Name(rawValue: "update"), object: nil)
+        // Inform view of table data.
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
-    func updateClip() {
-        var clip_text = ""
-        
-        PINCache.shared().object(forKey: self.clip_keys[self.currentClipIndex]) { (cache, key, object) in
-            if let clip = object as? NSCoding {
-                clip_text = "\(self.clip_keys[self.currentClipIndex]): \(clip)"
-                
-                // This block is async because setting string value must be used from main thread only
-                DispatchQueue.main.async {
-                    print(clip_text)
-                    self.textLabel.stringValue = String(clip_text)
-                }
-            }
-        }
+    // Call when item added to clipboard
+    @objc func updateClip() {
+        // Print statement debugging
+        print("update")
+        self.tableView.reloadData()
     }
 }
 
 // MARK: Actions
 
+extension ClipViewController: NSTableViewDataSource {
+  
+  func numberOfRows(in tableView: NSTableView) -> Int {
+    return clip_keys.count
+  }
+
+}
+
 extension ClipViewController {
-  @IBAction func previous(_ sender: NSButton) {
-    // TODO: replace with SwiftUI List
-    // currentClipIndex = (currentClipIndex - 1 + clip_keys.count) % clip_keys.count
-  }
-
-  @IBAction func next(_ sender: NSButton) {
-    // TOOD: replace with SwiftUI List
-    // currentClipIndex = (currentClipIndex + 1) % clip_keys.count
-    // print(currentClipIndex)
-  }
-
   @IBAction func quit(_ sender: NSButton) {
     NSApplication.shared.terminate(sender)
   }
@@ -75,4 +62,41 @@ extension ClipViewController {
     }
     return viewcontroller
   }
+}
+
+extension ClipViewController: NSTableViewDelegate {
+
+  fileprivate enum CellIdentifiers {
+    static let ClipCell = "ClipCellID"
+  }
+    func getClip(clipKey: String) -> String {
+        return PINCache.shared().object(forKey: clipKey) as? String ?? ""
+    }
+        
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    var text: String = ""
+    var cellIdentifier: String = ""
+    let item = getClip(clipKey: clip_keys[row])
+    
+    // If nothing in clipboard, display nothing
+    // TODO: replace with guard statement, probably?
+    if item == "" {
+        return nil
+    }
+
+    // Populate the cell.
+    if tableColumn == tableView.tableColumns[0] {
+      text = item
+      cellIdentifier = CellIdentifiers.ClipCell
+    }
+    
+    // Repeat for the coming cells.
+    
+    if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? NSTableCellView {
+      cell.textField?.stringValue = text
+      return cell
+    }
+    return nil
+  }
+
 }

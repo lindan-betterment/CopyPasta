@@ -25,17 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     
     let popover = NSPopover()
-    /*
-    @objc func printQuote(_ sender: Any?) {
-        for item in self.pasteboardItemTimeStamps{
-            PINCache.shared().object(forKey: item) { (cache, key, object) in
-                if let clip = object as? NSCoding {
-                    print(item, ":" , clip)
-                }
-            }
-        }
-    }
-    */
     
     @objc func togglePopover(_ sender: Any?) {
       if popover.isShown {
@@ -83,11 +72,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.pasteboardItemTimeStamps.append(String(timestamp))
                     // TODO: read is not a proper NSCoding obj
                     PINCache.shared().setObject(clipboard! as NSCoding, forKey: String(timestamp))
+                    // update view
+                    //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
                 }
-                // Print debugging lol
-                //print(clipboard!)
-                //print(timestamp)
-                //print(self.pasteboardItemTimeStamps.count)
             }
         })
 
