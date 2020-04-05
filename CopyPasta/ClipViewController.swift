@@ -19,17 +19,20 @@ class ClipViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
         // Register observer notification
-        //NotificationCenter.default.addObserver(self, selector: #selector(updateClip), name: NSNotification.Name(rawValue: "update"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refresh), name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
         // Inform view of table data.
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     // Call when item added to clipboard
-    @objc func updateClip() {
-        // Print statement debugging
-        print("update")
-        self.tableView.reloadData()
+    
+    @objc func refresh() {
+        DispatchQueue.main.async {
+            // refresh clip items
+            self.clip_keys = self.delegate.pasteboardItemTimeStamps
+            self.tableView.reloadData()
+        }
     }
 }
 

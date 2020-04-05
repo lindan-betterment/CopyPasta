@@ -74,6 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     PINCache.shared().setObject(clipboard! as NSCoding, forKey: String(timestamp))
                     // update view
                     //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
                 }
             }
         })
