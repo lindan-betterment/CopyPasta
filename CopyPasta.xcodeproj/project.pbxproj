@@ -56,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BF24CD58243AF6150000F65D /* CopyPasta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPasta.entitlements; sourceTree = "<group>"; };
 		BFDB8EDD24355E8A00FE022B /* CopyPasta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyPasta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFDB8EE024355E8A00FE022B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFDB8EE224355E8A00FE022B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,7 +64,6 @@
 		BFDB8EE724355E8E00FE022B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFDB8EEA24355E8E00FE022B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFDB8EEC24355E8E00FE022B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BFDB8EED24355E8E00FE022B /* CopyPasta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPasta.entitlements; sourceTree = "<group>"; };
 		BFDB8EF224355E8E00FE022B /* CopyPastaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopyPastaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFDB8EF624355E8E00FE022B /* CopyPastaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyPastaTests.swift; sourceTree = "<group>"; };
 		BFDB8EF824355E8E00FE022B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,11 +132,11 @@
 				BFDB8EE024355E8A00FE022B /* AppDelegate.swift */,
 				BFDB8F1B2436641700FE022B /* Clip.swift */,
 				BFDB8EE224355E8A00FE022B /* ViewController.swift */,
+				BF24CD58243AF6150000F65D /* CopyPasta.entitlements */,
 				BFDB8F1924365EA600FE022B /* ClipViewController.swift */,
 				BFDB8EE724355E8E00FE022B /* Assets.xcassets */,
 				BFDB8EE924355E8E00FE022B /* Main.storyboard */,
 				BFDB8EEC24355E8E00FE022B /* Info.plist */,
-				BFDB8EED24355E8E00FE022B /* CopyPasta.entitlements */,
 				BFDB8EE424355E8A00FE022B /* CopyPasta.xcdatamodeld */,
 			);
 			path = CopyPasta;

@@ -24,7 +24,7 @@ class ClipViewController: NSViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.target = self
-        tableView.doubleAction = #selector(tableViewDoubleClick(_:))
+        //tableView.doubleAction = #selector(tableViewDoubleClick(_:))
     }
     
     // Call when item added to clipboard
@@ -35,7 +35,6 @@ class ClipViewController: NSViewController {
             self.tableView.reloadData()
         }
     }
-    
 }
 
 // MARK: Actions
@@ -104,44 +103,27 @@ extension ClipViewController: NSTableViewDelegate {
     return nil
   }
     
-    @objc func tableViewDoubleClick(_ sender:AnyObject) {
-        // On double click
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        // let tableView:NSTableView = notification.object as! NSTableView
+        
         // clear pasteboard
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         
         // move selection onto pasteboard
-        
+        if tableView.selectedRow > clip_keys.count - 1 {
+            return
+        }
         pasteboard.setString(getClip(clipKey: clip_keys[tableView.selectedRow]), forType: NSPasteboard.PasteboardType.string)
-        // programmatically Cmd + V
-        // TODO: https://stackoverflow.com/questions/17693408/enable-access-for-assistive-devices-programmatically-on-10-9
-        /*
-        let src = CGEventSource(stateID: .privateState)
-
         
-        // TODO: check for accessibility issues?
-        let cmd_down = CGEvent(keyboardEventSource: src, virtualKey: 0x37, keyDown: true)
-        let cmd_up = CGEvent(keyboardEventSource: src, virtualKey: 0x37, keyDown: false)
-        let v_down = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
-        let v_up = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
-        
-        v_down?.flags = CGEventFlags.maskCommand
-        cmd_down?.flags = CGEventFlags.maskCommand
-        
-        let loc = CGEventTapLocation.cghidEventTap
-
-        cmd_down?.post(tap: loc)
-        v_down?.post(tap: loc)
-        v_up?.post(tap: loc)
-        cmd_up?.post(tap: loc)
+        /* NOTES
+            Originally wanted to programatically Cmd + V, but the cursor would be in the incorrect area. Idea was abandoned.
+            
+            Challenges for that idea include:
+                - https://stackoverflow.com/questions/17693408/enable-access-for-assistive-devices-programmatically-on-10-9
+                - https://stackoverflow.com/questions/57683783/unable-to-simulate-keystrokes-in-macos-mojave-app
+                - https://stackoverflow.com/questions/7018354/remove-sandboxing
         */
-        
-        // move last selection back onto pasteboard
-        // pasteboard.clearContents()
-        //pasteboard.setString(getClip(clipKey: clip_keys[clip_keys.count - 1]), forType: NSPasteboard.PasteboardType.string)
-        // print(tableView.selectedRow)
-        
-        
     }
 
 }
