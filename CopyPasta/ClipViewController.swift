@@ -12,7 +12,7 @@ import PINCache
 class ClipViewController: NSViewController {
     // TODO: Refresh with new clips?
     let delegate = (NSApplication.shared.delegate) as! AppDelegate
-    lazy var clip_keys = delegate.pasteboardItemTimeStamps
+    lazy var clip_keys = delegate.pasteboardItemKeys
     @IBOutlet weak var tableView: NSTableView!
 
     override func viewDidLoad() {
@@ -23,17 +23,19 @@ class ClipViewController: NSViewController {
         // Inform view of table data.
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.target = self
+        tableView.doubleAction = #selector(tableViewDoubleClick(_:))
     }
     
     // Call when item added to clipboard
-    
     @objc func refresh() {
         DispatchQueue.main.async {
             // refresh clip items
-            self.clip_keys = self.delegate.pasteboardItemTimeStamps
+            self.clip_keys = self.delegate.pasteboardItemKeys
             self.tableView.reloadData()
         }
     }
+    
 }
 
 // MARK: Actions
@@ -101,5 +103,45 @@ extension ClipViewController: NSTableViewDelegate {
     }
     return nil
   }
+    
+    @objc func tableViewDoubleClick(_ sender:AnyObject) {
+        // On double click
+        // clear pasteboard
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        
+        // move selection onto pasteboard
+        
+        pasteboard.setString(getClip(clipKey: clip_keys[tableView.selectedRow]), forType: NSPasteboard.PasteboardType.string)
+        // programmatically Cmd + V
+        // TODO: https://stackoverflow.com/questions/17693408/enable-access-for-assistive-devices-programmatically-on-10-9
+        /*
+        let src = CGEventSource(stateID: .privateState)
+
+        
+        // TODO: check for accessibility issues?
+        let cmd_down = CGEvent(keyboardEventSource: src, virtualKey: 0x37, keyDown: true)
+        let cmd_up = CGEvent(keyboardEventSource: src, virtualKey: 0x37, keyDown: false)
+        let v_down = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
+        let v_up = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
+        
+        v_down?.flags = CGEventFlags.maskCommand
+        cmd_down?.flags = CGEventFlags.maskCommand
+        
+        let loc = CGEventTapLocation.cghidEventTap
+
+        cmd_down?.post(tap: loc)
+        v_down?.post(tap: loc)
+        v_up?.post(tap: loc)
+        cmd_up?.post(tap: loc)
+        */
+        
+        // move last selection back onto pasteboard
+        // pasteboard.clearContents()
+        //pasteboard.setString(getClip(clipKey: clip_keys[clip_keys.count - 1]), forType: NSPasteboard.PasteboardType.string)
+        // print(tableView.selectedRow)
+        
+        
+    }
 
 }

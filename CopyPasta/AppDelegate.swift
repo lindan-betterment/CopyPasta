@@ -9,13 +9,37 @@
 import Cocoa
 import PINCache
 
+// MD5 hashing for quick duplicate check
+import var CommonCrypto.CC_MD5_DIGEST_LENGTH
+import func CommonCrypto.CC_MD5
+import typealias CommonCrypto.CC_LONG
+
+func MD5(string: String) -> Data {
+    let length = Int(CC_MD5_DIGEST_LENGTH)
+    let messageData = string.data(using:.utf8)!
+    var digestData = Data(count: length)
+
+    _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
+        messageData.withUnsafeBytes { messageBytes -> UInt8 in
+            if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
+                let messageLength = CC_LONG(messageData.count)
+                // TODO: replace with SHA-256 as this is depracated in MacOS 10.15
+                CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
+            }
+            return 0
+        }
+    }
+    return digestData
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     // member variables
     var timer: DispatchSourceTimer!
     let pasteboard: NSPasteboard = .general
     var lastChangeCount: Int = 0
-    var pasteboardItemTimeStamps:[String] = []
+    // TODO: rename timestamp to keys
+    var pasteboardItemKeys:[String] = []
     
     func getCurrentMillis()->Int64 {
         return Int64(Date().timeIntervalSince1970 * 100000)
@@ -67,14 +91,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let clipboard = read!.first!.string(forType: .string)
                 if clipboard != nil {
                     // Get timestamp
-                    let timestamp = self.getCurrentMillis()
-                    // Add to array of ids
-                    self.pasteboardItemTimeStamps.append(String(timestamp))
-                    // TODO: read is not a proper NSCoding obj
-                    PINCache.shared().setObject(clipboard! as NSCoding, forKey: String(timestamp))
-                    // update view
-                    //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
+                    //let timestamp = self.getCurrentMillis()
+                    
+                    // Get hash
+                    let hash_data = MD5(string: clipboard!) // MD5(clipboard).data(using:.utf8)
+                    let key =  hash_data.map { String(format: "%02hhx", $0) }.joined()
+                    if !self.pasteboardItemKeys.contains(key) {
+                        // Add to array of ids
+                        self.pasteboardItemKeys.append(key)
+                        // TODO: read is not a proper NSCoding obj
+                        PINCache.shared().setObject(clipboard! as NSCoding, forKey: key)
+                        // update view
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
+                    }
                 }
             }
         })
