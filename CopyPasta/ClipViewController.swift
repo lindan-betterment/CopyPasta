@@ -9,10 +9,11 @@
 import Cocoa
 import PINCache
 
-class ClipViewController: NSViewController {
+class ClipViewController: NSViewController, NSPopoverDelegate {
     // TODO: Refresh with new clips?
     let delegate = (NSApplication.shared.delegate) as! AppDelegate
     lazy var clip_keys = delegate.pasteboardItemKeys
+    lazy var popover = delegate.popover
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet var progressIndicator: NSProgressIndicator!
 
@@ -28,6 +29,7 @@ class ClipViewController: NSViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.target = self
+        popover.delegate = self
     }
     
     // Call when item added to clipboard
@@ -50,6 +52,12 @@ class ClipViewController: NSViewController {
             self.progressIndicator.isHidden = true
             self.progressIndicator.stopAnimation(self)
         }
+    }
+    
+    // MARK: - Popover Delegate
+    
+    func popoverShouldDetach(_ popover: NSPopover) -> Bool {
+        return true
     }
 }
 
