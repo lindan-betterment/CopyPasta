@@ -1,4 +1,4 @@
-# CopyPasta
+# CopyPasta ![pasta image](https://github.com/emberOwl/CopyPasta/raw/master/CopyPasta/Assets.xcassets/pasta.imageset/pasta.png "pasta")
 
 CopyPasta is yet another unobtrusive clipboard extension for MacOS. CopyPasta stores the last n(TBD) items that were copied onto the clipboard and can paste any of the items selected. There will be no support for any MacOS versions previous to Catalina.
 
@@ -33,7 +33,7 @@ With every (⌘ + c) keypress, each copied item is stored in the cache, ordered 
 
 ### Copy
 
-The application polls for changes every 500 milliseconds for changes in the general NSPasteboard. When it encounters a change, it stores the new item in a key value store located in the cache, the key being the timestamp of when the change was discovered. 
+The application polls for changes every 500 milliseconds for changes in the general NSPasteboard. When it encounters a change, it stores the new item in a key value store located in the cache, the key being a SHA-1 hash of the content.  
 
 #### This seems dumb.
 
