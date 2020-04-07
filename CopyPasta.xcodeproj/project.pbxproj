@@ -20,7 +20,6 @@
 		BFDB8F172436562A00FE022B /* PINCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFDB8F162436562A00FE022B /* PINCache.framework */; };
 		BFDB8F182436562A00FE022B /* PINCache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFDB8F162436562A00FE022B /* PINCache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFDB8F1A24365EA600FE022B /* ClipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8F1924365EA600FE022B /* ClipViewController.swift */; };
-		BFDB8F1C2436641700FE022B /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8F1B2436641700FE022B /* Clip.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		BF24CD58243AF6150000F65D /* CopyPasta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPasta.entitlements; sourceTree = "<group>"; };
+		BF24CD59243B09670000F65D /* CopyPasta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CopyPasta-Bridging-Header.h"; sourceTree = "<group>"; };
 		BFDB8EDD24355E8A00FE022B /* CopyPasta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyPasta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFDB8EE024355E8A00FE022B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFDB8EE224355E8A00FE022B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +74,6 @@
 		BFDB8F122436561000FE022B /* HotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HotKey.framework; path = Carthage/Build/Mac/HotKey.framework; sourceTree = "<group>"; };
 		BFDB8F162436562A00FE022B /* PINCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PINCache.framework; path = Carthage/Build/Mac/PINCache.framework; sourceTree = "<group>"; };
 		BFDB8F1924365EA600FE022B /* ClipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipViewController.swift; sourceTree = "<group>"; };
-		BFDB8F1B2436641700FE022B /* Clip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clip.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				BFDB8EE024355E8A00FE022B /* AppDelegate.swift */,
-				BFDB8F1B2436641700FE022B /* Clip.swift */,
+				BF24CD59243B09670000F65D /* CopyPasta-Bridging-Header.h */,
 				BFDB8EE224355E8A00FE022B /* ViewController.swift */,
 				BF24CD58243AF6150000F65D /* CopyPasta.entitlements */,
 				BFDB8F1924365EA600FE022B /* ClipViewController.swift */,
@@ -303,7 +302,6 @@
 			files = (
 				BFDB8EE324355E8A00FE022B /* ViewController.swift in Sources */,
 				BFDB8EE124355E8A00FE022B /* AppDelegate.swift in Sources */,
-				BFDB8F1C2436641700FE022B /* Clip.swift in Sources */,
 				BFDB8F1A24365EA600FE022B /* ClipViewController.swift in Sources */,
 				BFDB8EE624355E8A00FE022B /* CopyPasta.xcdatamodeld in Sources */,
 			);
@@ -408,6 +406,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "CopyPasta/CopyPasta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -461,6 +460,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "CopyPasta/CopyPasta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;

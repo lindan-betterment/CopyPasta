@@ -48,3 +48,9 @@ Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-f
 
 ## Thank you
 [RayWenderlich was a priceless resource for MacOS application development.](https://www.raywenderlich.com/) Thank you!
+
+#### TODO
+- Add image and file formats
+- Option to reorder menu
+- Fix whitespace
+- Think about keeping track of timestamps

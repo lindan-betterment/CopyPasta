@@ -14,17 +14,20 @@ class ClipViewController: NSViewController {
     let delegate = (NSApplication.shared.delegate) as! AppDelegate
     lazy var clip_keys = delegate.pasteboardItemKeys
     @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet var progressIndicator: NSProgressIndicator!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        // Register observer notification
+        
+        // Register observer notifications
         NotificationCenter.default.addObserver(self, selector: #selector(self.refresh), name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showSpinner), name: NSNotification.Name(rawValue: "startSpinnerNotif"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideSpinner), name: NSNotification.Name(rawValue: "endSpinnerNotif"), object: nil)
         // Inform view of table data.
         tableView.delegate = self
         tableView.dataSource = self
         tableView.target = self
-        //tableView.doubleAction = #selector(tableViewDoubleClick(_:))
     }
     
     // Call when item added to clipboard
@@ -33,6 +36,19 @@ class ClipViewController: NSViewController {
             // refresh clip items
             self.clip_keys = self.delegate.pasteboardItemKeys
             self.tableView.reloadData()
+        }
+    }
+    @objc func showSpinner() {
+        DispatchQueue.main.async {
+            self.progressIndicator.isHidden = false
+            self.progressIndicator.startAnimation(self)
+        }
+    }
+    
+    @objc func hideSpinner() {
+        DispatchQueue.main.async {
+            self.progressIndicator.isHidden = true
+            self.progressIndicator.stopAnimation(self)
         }
     }
 }
@@ -48,6 +64,23 @@ extension ClipViewController: NSTableViewDataSource {
 }
 
 extension ClipViewController {
+    @IBAction func clear_pasteboard(_ sender: NSButton) {
+        // Quickly clear out user UI for fast feedback
+        
+        // empty locally stored keys
+        clip_keys = [String]()
+        // update the tableview
+        refresh()
+        
+        // Actually clear out items
+        
+        // empty AppDelegate pasteboard keys
+        self.delegate.pasteboardItemKeys = []
+        
+        // clear cache items
+        PINCache.shared().removeAllObjects()
+    }
+    
   @IBAction func quit(_ sender: NSButton) {
     NSApplication.shared.terminate(sender)
   }
@@ -104,8 +137,6 @@ extension ClipViewController: NSTableViewDelegate {
   }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        // let tableView:NSTableView = notification.object as! NSTableView
-        
         // clear pasteboard
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()

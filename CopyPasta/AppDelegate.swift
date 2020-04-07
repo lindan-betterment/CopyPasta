@@ -9,27 +9,19 @@
 import Cocoa
 import PINCache
 
-// MD5 hashing for quick duplicate check
-import var CommonCrypto.CC_MD5_DIGEST_LENGTH
-import func CommonCrypto.CC_MD5
-import typealias CommonCrypto.CC_LONG
+// hashing for quick duplicate check
+import CommonCrypto
 
-func MD5(string: String) -> Data {
-    let length = Int(CC_MD5_DIGEST_LENGTH)
-    let messageData = string.data(using:.utf8)!
-    var digestData = Data(count: length)
-
-    _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
-        messageData.withUnsafeBytes { messageBytes -> UInt8 in
-            if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
-                let messageLength = CC_LONG(messageData.count)
-                // TODO: replace with SHA-256 as this is depracated in MacOS 10.15
-                CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
-            }
-            return 0
+extension String {
+    func sha1() -> String {
+        let data = Data(self.utf8)
+        var digest = [UInt8](repeating: 0, count:Int(CC_SHA1_DIGEST_LENGTH))
+        data.withUnsafeBytes {
+            _ = CC_SHA1($0.baseAddress, CC_LONG(data.count), &digest)
         }
+        let hexBytes = digest.map { String(format: "%02hhx", $0) }
+        return hexBytes.joined()
     }
-    return digestData
 }
 
 @NSApplicationMain
@@ -38,16 +30,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timer: DispatchSourceTimer!
     let pasteboard: NSPasteboard = .general
     var lastChangeCount: Int = 0
-    // TODO: rename timestamp to keys
     var pasteboardItemKeys:[String] = []
     
+    /* TODO: keep track of timestamp?
     func getCurrentMillis()->Int64 {
         return Int64(Date().timeIntervalSince1970 * 100000)
     }
+    */
 
     // Create the application icon with fixed length
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     
+    // Create the popover window
     let popover = NSPopover()
     
     @objc func togglePopover(_ sender: Any?) {
@@ -70,7 +64,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        
         if let button = statusItem.button {
           button.image = NSImage(named:NSImage.Name("pasta"))
           button.action = #selector(togglePopover(_:))
@@ -89,20 +82,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 // Add current value to key value store
                 let read = self.pasteboard.pasteboardItems
                 let clipboard = read!.first!.string(forType: .string)
-                if clipboard != nil {
-                    // Get timestamp
-                    //let timestamp = self.getCurrentMillis()
+                if clipboard! != nil {
+                    // Get timestamp?
+                    // let timestamp = self.getCurrentMillis()
                     
                     // Get hash
-                    let hash_data = MD5(string: clipboard!) // MD5(clipboard).data(using:.utf8)
-                    let key =  hash_data.map { String(format: "%02hhx", $0) }.joined()
+                    let key = clipboard!.sha1()
+                    
                     if !self.pasteboardItemKeys.contains(key) {
+                        // Update view for fast user feedback
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startSpinnerNotif"), object: nil)
+                        // Slow user down with "loading" icon
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
+                        
                         // Add to array of ids
                         self.pasteboardItemKeys.append(key)
                         // TODO: read is not a proper NSCoding obj
+                        // Also this is slow
                         PINCache.shared().setObject(clipboard! as NSCoding, forKey: key)
-                        // update view
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
+                       
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endSpinnerNotif"), object: nil)
                     }
                 }
             }
@@ -212,20 +211,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // If we got here, it is time to quit.
         return .terminateNow
     }
-    
-    // Status bar menu
-    /*
-    func constructMenu() {
-      let menu = NSMenu()
-
-      menu.addItem(NSMenuItem(title: "Show Clipboard", action: #selector(AppDelegate.printQuote(_:)), keyEquivalent: "P"))
-      menu.addItem(NSMenuItem.separator())
-      menu.addItem(NSMenuItem(title: "Options", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "o"))
-      menu.addItem(NSMenuItem.separator())
-      menu.addItem(NSMenuItem(title: "Quit Quotes", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-
-      statusItem.menu = menu
-    }
-     */
 }
 
