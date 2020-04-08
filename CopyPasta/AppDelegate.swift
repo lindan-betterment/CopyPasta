@@ -12,6 +12,7 @@ import PINCache
 // hashing for quick duplicate check
 import CommonCrypto
 
+/* TODO: Vet pasteboard hashing?
 extension String {
     func sha1() -> String {
         let data = Data(self.utf8)
@@ -23,6 +24,7 @@ extension String {
         return hexBytes.joined()
     }
 }
+*/
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -81,13 +83,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.lastChangeCount = self.pasteboard.changeCount
                 // Add current value to key value store
                 let read = self.pasteboard.pasteboardItems
+                
+                /* Image support
+                guard let data = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage], let firstText = data.first else { return }
+                // set NSImage name
+                firstText.setName(String(hash))
+                print(firstText.name())
+                */
+                
                 let clipboard = read!.first!.string(forType: .string)
+                // TOOD replace clipboard
                 if clipboard! != nil {
                     // Get timestamp?
                     // let timestamp = self.getCurrentMillis()
                     
                     // Get hash
-                    let key = clipboard!.sha1()
+                    let key = String(clipboard!.hash)
                     
                     if !self.pasteboardItemKeys.contains(key) {
                         // Update view for fast user feedback

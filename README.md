@@ -51,6 +51,10 @@ Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-f
 
 #### TODO
 - Add image and file formats
+- Shortcuts
+- Sound effects
+- create clip item
 - Option to reorder menu
 - Fix whitespace
 - Think about keeping track of timestamps
+- drag and drop
