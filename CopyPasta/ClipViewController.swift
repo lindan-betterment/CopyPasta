@@ -12,7 +12,7 @@ import PINCache
 class ClipViewController: NSViewController, NSPopoverDelegate {
     // TODO: Refresh with new clips?
     let delegate = (NSApplication.shared.delegate) as! AppDelegate
-    lazy var clip_keys = delegate.pasteboardItemKeys
+    lazy var clips = delegate.pasteboardItems
     lazy var popover = delegate.popover
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet var progressIndicator: NSProgressIndicator!
@@ -36,7 +36,7 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
     @objc func refresh() {
         DispatchQueue.main.async {
             // refresh clip items
-            self.clip_keys = self.delegate.pasteboardItemKeys
+            self.clips = self.delegate.pasteboardItems
             self.tableView.reloadData()
         }
     }
@@ -66,7 +66,7 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
 extension ClipViewController: NSTableViewDataSource {
   
   func numberOfRows(in tableView: NSTableView) -> Int {
-    return clip_keys.count
+    return clips.count
   }
 
 }
@@ -76,14 +76,14 @@ extension ClipViewController {
         // Quickly clear out user UI for fast feedback
         
         // empty locally stored keys
-        clip_keys = [String]()
+        clips = [Clip]()
         // update the tableview
         refresh()
         
         // Actually clear out items
         
         // empty AppDelegate pasteboard keys
-        self.delegate.pasteboardItemKeys = []
+        self.delegate.pasteboardItems = [Clip]()
         
         // clear cache items
         PINCache.shared().removeAllObjects()
@@ -121,7 +121,7 @@ extension ClipViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     var text: String = ""
     var cellIdentifier: String = ""
-    let item = getClip(clipKey: clip_keys[row])
+        let item = getClip(clipKey: clips[row].hash)
     
     // If nothing in clipboard, display nothing
     // TODO: replace with guard statement, probably?
@@ -150,10 +150,10 @@ extension ClipViewController: NSTableViewDelegate {
         pasteboard.clearContents()
         
         // move selection onto pasteboard
-        if tableView.selectedRow > clip_keys.count - 1 {
+        if tableView.selectedRow > clips.count - 1 {
             return
         }
-        pasteboard.setString(getClip(clipKey: clip_keys[tableView.selectedRow]), forType: NSPasteboard.PasteboardType.string)
+        pasteboard.setString(getClip(clipKey: clips[tableView.selectedRow].hash), forType: NSPasteboard.PasteboardType.string)
         
         /* NOTES
             Originally wanted to programatically Cmd + V, but the cursor would be in the incorrect area. Idea was abandoned.

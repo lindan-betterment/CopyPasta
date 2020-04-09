@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		BF24CD60243C32C90000F65D /* ClipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8F1924365EA600FE022B /* ClipViewController.swift */; };
 		BF24CD61243C32CA0000F65D /* ClipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8F1924365EA600FE022B /* ClipViewController.swift */; };
+		BF24CD6B243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
+		BF24CD6C243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
+		BF24CD6D243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
 		BFDB8EE124355E8A00FE022B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE024355E8A00FE022B /* AppDelegate.swift */; };
 		BFDB8EE324355E8A00FE022B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE224355E8A00FE022B /* ViewController.swift */; };
 		BFDB8EE624355E8A00FE022B /* CopyPasta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE424355E8A00FE022B /* CopyPasta.xcdatamodeld */; };
@@ -59,6 +62,7 @@
 /* Begin PBXFileReference section */
 		BF24CD58243AF6150000F65D /* CopyPasta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPasta.entitlements; sourceTree = "<group>"; };
 		BF24CD59243B09670000F65D /* CopyPasta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CopyPasta-Bridging-Header.h"; sourceTree = "<group>"; };
+		BF24CD6A243EA3390000F65D /* Clip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clip.swift; sourceTree = "<group>"; };
 		BFDB8EDD24355E8A00FE022B /* CopyPasta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyPasta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFDB8EE024355E8A00FE022B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFDB8EE224355E8A00FE022B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				BFDB8EE024355E8A00FE022B /* AppDelegate.swift */,
+				BF24CD6A243EA3390000F65D /* Clip.swift */,
 				BF24CD59243B09670000F65D /* CopyPasta-Bridging-Header.h */,
 				BFDB8EE224355E8A00FE022B /* ViewController.swift */,
 				BF24CD58243AF6150000F65D /* CopyPasta.entitlements */,
@@ -304,6 +309,7 @@
 			files = (
 				BFDB8EE324355E8A00FE022B /* ViewController.swift in Sources */,
 				BFDB8EE124355E8A00FE022B /* AppDelegate.swift in Sources */,
+				BF24CD6B243EA3390000F65D /* Clip.swift in Sources */,
 				BFDB8F1A24365EA600FE022B /* ClipViewController.swift in Sources */,
 				BFDB8EE624355E8A00FE022B /* CopyPasta.xcdatamodeld in Sources */,
 			);
@@ -314,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF24CD60243C32C90000F65D /* ClipViewController.swift in Sources */,
+				BF24CD6C243EA3390000F65D /* Clip.swift in Sources */,
 				BFDB8EF724355E8E00FE022B /* CopyPastaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF24CD61243C32CA0000F65D /* ClipViewController.swift in Sources */,
+				BF24CD6D243EA3390000F65D /* Clip.swift in Sources */,
 				BFDB8F0224355E8E00FE022B /* CopyPastaUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

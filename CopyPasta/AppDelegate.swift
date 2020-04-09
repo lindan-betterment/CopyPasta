@@ -32,14 +32,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timer: DispatchSourceTimer!
     let pasteboard: NSPasteboard = .general
     var lastChangeCount: Int = 0
-    var pasteboardItemKeys:[String] = []
+    var pasteboardItems:[Clip] = []
+    //var pasteboardItemKeys:[String] = []
     
-    /* TODO: keep track of timestamp?
     func getCurrentMillis()->Int64 {
         return Int64(Date().timeIntervalSince1970 * 100000)
     }
-    */
-
+    
     // Create the application icon with fixed length
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     
@@ -84,30 +83,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 // Add current value to key value store
                 let read = self.pasteboard.pasteboardItems
                 
-                /* Image support
-                guard let data = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage], let firstText = data.first else { return }
-                // set NSImage name
-                firstText.setName(String(hash))
-                print(firstText.name())
-                */
-                
                 let clipboard = read!.first!.string(forType: .string)
+                
+                /*
+                // Image support
+                guard let data = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage], let firstText = data.first else { return }
+                print(firstText)
+                // set NSImage name
+                firstText.setName(String(self.hash))
+                print(firstText.name()!)
+                
+                // show supposrted imsge types
+                
+                print(firstText.representations[0])
+                */
                 // TOOD replace clipboard
                 if clipboard! != nil {
-                    // Get timestamp?
-                    // let timestamp = self.getCurrentMillis()
-                    
                     // Get hash
                     let key = String(clipboard!.hash)
                     
-                    if !self.pasteboardItemKeys.contains(key) {
+                    if !self.pasteboardItems.contains(where: {$0.hash == key}) {
                         // Update view for fast user feedback
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startSpinnerNotif"), object: nil)
                         // Slow user down with "loading" icon
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
                         
-                        // Add to array of ids
-                        self.pasteboardItemKeys.append(key)
+                        // Create Clip item
+                        let clip_item = Clip(pb_hash: key, change_timestamp: self.getCurrentMillis(), menu_string: clipboard!, item: clipboard! as NSCoding)
+                        // Add to array of clips
+                        self.pasteboardItems.append(clip_item)
                         // TODO: read is not a proper NSCoding obj
                         // Also this is slow
                         PINCache.shared().setObject(clipboard! as NSCoding, forKey: key)
