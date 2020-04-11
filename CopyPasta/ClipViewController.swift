@@ -121,15 +121,9 @@ extension ClipViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     var text: String = ""
     var cellIdentifier: String = ""
-        let item = getClip(clipKey: clips[row].hash)
+    let item = getClip(clipKey: clips[row].hash)
     
     // If nothing in clipboard, display nothing
-    // TODO: replace with guard statement, probably?
-    /*
-    if item == "" {
-        return nil
-    }*/
-        
         if row > clips.count {
             return nil
         }
@@ -144,6 +138,11 @@ extension ClipViewController: NSTableViewDelegate {
     
     if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? NSTableCellView {
       cell.textField?.stringValue = text
+        if type(of: item) === NSBitmapImageRep.self {
+            let new_image = item as! NSBitmapImageRep
+            cell.imageView?.image = NSImage(data: new_image.tiffRepresentation!)
+            print("img")
+        }
       return cell
     }
     return nil

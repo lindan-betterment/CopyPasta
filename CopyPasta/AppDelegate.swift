@@ -88,7 +88,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
                 //let clipboard = read!.first!.string(forType: .string)
                 let img = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage] ?? nil
-                print(img)
                 // this is an image
                 if img!.first != nil {
                     menu_string = "image"
