@@ -114,8 +114,8 @@ extension ClipViewController: NSTableViewDelegate {
   fileprivate enum CellIdentifiers {
     static let ClipCell = "ClipCellID"
   }
-    func getClip(clipKey: String) -> String {
-        return PINCache.shared().object(forKey: clipKey) as? String ?? ""
+    func getClip(clipKey: String) -> NSCoding {
+        return PINCache.shared().object(forKey: clipKey) as! NSCoding
     }
         
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -125,13 +125,18 @@ extension ClipViewController: NSTableViewDelegate {
     
     // If nothing in clipboard, display nothing
     // TODO: replace with guard statement, probably?
+    /*
     if item == "" {
         return nil
-    }
+    }*/
+        
+        if row > clips.count {
+            return nil
+        }
 
     // Populate the cell.
     if tableColumn == tableView.tableColumns[0] {
-      text = item
+        text = clips[row].menu_view
       cellIdentifier = CellIdentifiers.ClipCell
     }
     
@@ -153,7 +158,20 @@ extension ClipViewController: NSTableViewDelegate {
         if tableView.selectedRow > clips.count - 1 {
             return
         }
-        pasteboard.setString(getClip(clipKey: clips[tableView.selectedRow].hash), forType: NSPasteboard.PasteboardType.string)
+        
+        let selected_clip = getClip(clipKey: clips[tableView.selectedRow].hash)
+        
+        if type(of: selected_clip) === NSBitmapImageRep.self {
+            let selected_img = selected_clip as! NSBitmapImageRep
+            let pasteboard_img = NSImage(data: selected_img.tiffRepresentation!)
+            pasteboard.writeObjects([pasteboard_img!])
+            print("image")
+        }
+        else {
+            pasteboard.writeObjects([selected_clip as! NSString])
+            print("string")
+        }
+        //pasteboard.setString(clips[tableView.selectedRow].menu_view, forType: NSPasteboard.PasteboardType.string)
         
         /* NOTES
             Originally wanted to programatically Cmd + V, but the cursor would be in the incorrect area. Idea was abandoned.

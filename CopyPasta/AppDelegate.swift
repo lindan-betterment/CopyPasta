@@ -12,7 +12,6 @@ import PINCache
 // hashing for quick duplicate check
 import CommonCrypto
 
-/* TODO: Vet pasteboard hashing?
 extension String {
     func sha1() -> String {
         let data = Data(self.utf8)
@@ -24,7 +23,7 @@ extension String {
         return hexBytes.joined()
     }
 }
-*/
+
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -82,8 +81,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.lastChangeCount = self.pasteboard.changeCount
                 // Add current value to key value store
                 let read = self.pasteboard.pasteboardItems
+                // Initialize string representation
+                var menu_string: String = ""
+                // Initialize object
+                var data: NSCoding?
                 
-                let clipboard = read!.first!.string(forType: .string)
+                //let clipboard = read!.first!.string(forType: .string)
+                let img = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage] ?? nil
+                print(img)
+                // this is an image
+                if img!.first != nil {
+                    menu_string = "image"
+                    data = img?.first!.representations[0]
+                }
+                else {
+                    menu_string = read!.first!.string(forType: .string)!
+                    data = NSString(utf8String: menu_string)
+                }
                 
                 /*
                 // Image support
@@ -96,29 +110,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 // show supposrted imsge types
                 
                 print(firstText.representations[0])
-                */
-                // TOOD replace clipboard
-                if clipboard! != nil {
-                    // Get hash
-                    let key = String(clipboard!.hash)
+                 */
+                
+                // Get hash
+                let key = String(menu_string.sha1())
+                
+                if !self.pasteboardItems.contains(where: {$0.hash == key}) {
+                    // Update view for fast user feedback
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startSpinnerNotif"), object: nil)
+                    // Slow user down with "loading" icon
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
                     
-                    if !self.pasteboardItems.contains(where: {$0.hash == key}) {
-                        // Update view for fast user feedback
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startSpinnerNotif"), object: nil)
-                        // Slow user down with "loading" icon
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refreshNotif"), object: nil)
-                        
-                        // Create Clip item
-                        let clip_item = Clip(pb_hash: key, change_timestamp: self.getCurrentMillis(), menu_string: clipboard!, item: clipboard! as NSCoding)
-                        // Add to array of clips
-                        self.pasteboardItems.append(clip_item)
-                        // TODO: read is not a proper NSCoding obj
-                        // Also this is slow
-                        PINCache.shared().setObject(clipboard! as NSCoding, forKey: key)
-                       
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endSpinnerNotif"), object: nil)
-                    }
+                    // Create Clip item
+                    let clip_item = Clip(pb_hash: key, change_timestamp: self.getCurrentMillis(), menu_string: menu_string, item: data!)
+                    // Add to array of clips
+                    self.pasteboardItems.append(clip_item)
+                    // TODO: read is not a proper NSCoding obj
+                    // Also this is slow
+                    PINCache.shared().setObject(data! as NSCoding, forKey: key)
+                   
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endSpinnerNotif"), object: nil)
                 }
+            
             }
         })
 
