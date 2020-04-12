@@ -141,7 +141,11 @@ extension ClipViewController: NSTableViewDelegate {
         if type(of: item) === NSBitmapImageRep.self {
             let new_image = item as! NSBitmapImageRep
             cell.imageView?.image = NSImage(data: new_image.tiffRepresentation!)
+            cell.textField?.isHidden = true
             print("img")
+        }
+        else {
+            cell.imageView?.isHidden = true
         }
       return cell
     }
