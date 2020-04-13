@@ -52,9 +52,7 @@ Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-f
 #### TODO
 - Reformat image (big) and text (scroll)
 - Shortcuts
-- Sound effects
 - Option to reorder menu
 - Fix whitespace
-- Think about keeping track of timestamps
 - drag and drop
 - Add PDF formats
