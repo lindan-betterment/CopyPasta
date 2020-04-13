@@ -16,7 +16,9 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
     lazy var popover = delegate.popover
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet var progressIndicator: NSProgressIndicator!
-
+    
+    let tv = NSTextFieldCell()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -37,6 +39,7 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
         DispatchQueue.main.async {
             // refresh clip items
             self.clips = self.delegate.pasteboardItems
+            print(self.clips.count)
             self.tableView.reloadData()
         }
     }
@@ -110,7 +113,8 @@ extension ClipViewController {
 }
 
 extension ClipViewController: NSTableViewDelegate {
-
+     
+    
   fileprivate enum CellIdentifiers {
     static let ClipCell = "ClipCellID"
   }
@@ -137,15 +141,17 @@ extension ClipViewController: NSTableViewDelegate {
     // Repeat for the coming cells.
     
     if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? NSTableCellView {
-      cell.textField?.stringValue = text
+      
         if type(of: item) === NSBitmapImageRep.self {
             let new_image = item as! NSBitmapImageRep
             cell.imageView?.image = NSImage(data: new_image.tiffRepresentation!)
-            cell.textField?.isHidden = true
-            print("img")
+            cell.textField?.stringValue = ""
         }
         else {
-            cell.imageView?.isHidden = true
+            cell.imageView?.image = nil
+            // This does bad things for some reason
+            // cell.imageView?.isHidden = true
+            cell.textField?.stringValue = text
         }
       return cell
     }
@@ -168,11 +174,9 @@ extension ClipViewController: NSTableViewDelegate {
             let selected_img = selected_clip as! NSBitmapImageRep
             let pasteboard_img = NSImage(data: selected_img.tiffRepresentation!)
             pasteboard.writeObjects([pasteboard_img!])
-            print("image")
         }
         else {
             pasteboard.writeObjects([selected_clip as! NSString])
-            print("string")
         }
         //pasteboard.setString(clips[tableView.selectedRow].menu_view, forType: NSPasteboard.PasteboardType.string)
         
@@ -185,5 +189,16 @@ extension ClipViewController: NSTableViewDelegate {
                 - https://stackoverflow.com/questions/7018354/remove-sandboxing
         */
     }
+    
+    // "Dynamically" resizing cell height
+    // Will need to change text/img view to increase size
+    // Probably need to add scroll
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        tv.font = NSFont.systemFont(ofSize: 13)
+        let item = clips[row].menu_view
+        tv.stringValue = item
 
+        let yourHeight = tv.cellSize(forBounds: NSMakeRect(CGFloat(0.0), CGFloat(0.0), 435, CGFloat(Float.greatestFiniteMagnitude))).height
+        return yourHeight
+    }
 }

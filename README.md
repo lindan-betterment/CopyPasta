@@ -50,11 +50,11 @@ Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-f
 [RayWenderlich was a priceless resource for MacOS application development.](https://www.raywenderlich.com/) Thank you!
 
 #### TODO
-- Add image and file formats
+- Reformat image (big) and text (scroll)
 - Shortcuts
 - Sound effects
-- create clip item
 - Option to reorder menu
 - Fix whitespace
 - Think about keeping track of timestamps
 - drag and drop
+- Add PDF formats

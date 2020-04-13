@@ -90,8 +90,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let img = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage] ?? nil
                 // this is an image
                 if img!.first != nil {
-                    menu_string = "image"
                     data = img?.first!.representations[0]
+                    let img = data! as! NSBitmapImageRep
+                    menu_string = String(decoding: img.tiffRepresentation!, as: UTF8.self).sha1()
                 }
                 else {
                     menu_string = read!.first!.string(forType: .string)!
