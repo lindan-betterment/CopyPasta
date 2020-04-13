@@ -8,6 +8,7 @@
 
 import Cocoa
 import PINCache
+import AVFoundation
 
 class ClipViewController: NSViewController, NSPopoverDelegate {
     // TODO: Refresh with new clips?
@@ -18,6 +19,10 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
     @IBOutlet var progressIndicator: NSProgressIndicator!
     
     let tv = NSTextFieldCell()
+    
+    var input_audio_player = AVAudioPlayer()
+    var selection_audio_player = AVAudioPlayer()
+    var clear_audio_player = AVAudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +37,22 @@ class ClipViewController: NSViewController, NSPopoverDelegate {
         tableView.dataSource = self
         tableView.target = self
         popover.delegate = self
+        
+        // Initilize sound file
+        
+        let input_sound = Bundle.main.path(forResource: "Quick Fart", ofType: "wav")
+        let selection_sound = Bundle.main.path(forResource: "Sharp Fart", ofType: "wav")
+        let clear_sound = Bundle.main.path(forResource: "Lawn Mower Fart", ofType: "wav")
+        
+        do {
+            input_audio_player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: input_sound!))
+            selection_audio_player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: selection_sound!))
+            clear_audio_player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: clear_sound!))
+        }
+        catch {
+            // These errors are generally not important
+            print(error)
+        }
     }
     
     // Call when item added to clipboard
@@ -77,6 +98,7 @@ extension ClipViewController: NSTableViewDataSource {
 extension ClipViewController {
     @IBAction func clear_pasteboard(_ sender: NSButton) {
         // Quickly clear out user UI for fast feedback
+        clear_audio_player.play()
         
         // empty locally stored keys
         clips = [Clip]()
@@ -153,6 +175,7 @@ extension ClipViewController: NSTableViewDelegate {
             // cell.imageView?.isHidden = true
             cell.textField?.stringValue = text
         }
+        input_audio_player.play()
       return cell
     }
     return nil
@@ -169,6 +192,7 @@ extension ClipViewController: NSTableViewDelegate {
         }
         
         let selected_clip = getClip(clipKey: clips[tableView.selectedRow].hash)
+        selection_audio_player.play()
         
         if type(of: selected_clip) === NSBitmapImageRep.self {
             let selected_img = selected_clip as! NSBitmapImageRep

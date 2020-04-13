@@ -12,6 +12,10 @@
 		BF24CD6B243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
 		BF24CD6C243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
 		BF24CD6D243EA3390000F65D /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24CD6A243EA3390000F65D /* Clip.swift */; };
+		BF86DBF62445055B00A0A43F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF86DBF52445055B00A0A43F /* AVFoundation.framework */; };
+		BF86DBF8244505A400A0A43F /* Sharp Fart.wav in Resources */ = {isa = PBXBuildFile; fileRef = BF86DBF7244505A400A0A43F /* Sharp Fart.wav */; };
+		BF86DBFA244505CF00A0A43F /* Quick Fart.wav in Resources */ = {isa = PBXBuildFile; fileRef = BF86DBF9244505CF00A0A43F /* Quick Fart.wav */; };
+		BF86DBFC244508E000A0A43F /* Lawn Mower Fart.wav in Resources */ = {isa = PBXBuildFile; fileRef = BF86DBFB244508E000A0A43F /* Lawn Mower Fart.wav */; };
 		BFDB8EE124355E8A00FE022B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE024355E8A00FE022B /* AppDelegate.swift */; };
 		BFDB8EE324355E8A00FE022B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE224355E8A00FE022B /* ViewController.swift */; };
 		BFDB8EE624355E8A00FE022B /* CopyPasta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFDB8EE424355E8A00FE022B /* CopyPasta.xcdatamodeld */; };
@@ -63,6 +67,10 @@
 		BF24CD58243AF6150000F65D /* CopyPasta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPasta.entitlements; sourceTree = "<group>"; };
 		BF24CD59243B09670000F65D /* CopyPasta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CopyPasta-Bridging-Header.h"; sourceTree = "<group>"; };
 		BF24CD6A243EA3390000F65D /* Clip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clip.swift; sourceTree = "<group>"; };
+		BF86DBF52445055B00A0A43F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		BF86DBF7244505A400A0A43F /* Sharp Fart.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Sharp Fart.wav"; sourceTree = "<group>"; };
+		BF86DBF9244505CF00A0A43F /* Quick Fart.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Quick Fart.wav"; sourceTree = "<group>"; };
+		BF86DBFB244508E000A0A43F /* Lawn Mower Fart.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Lawn Mower Fart.wav"; sourceTree = "<group>"; };
 		BFDB8EDD24355E8A00FE022B /* CopyPasta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyPasta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFDB8EE024355E8A00FE022B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFDB8EE224355E8A00FE022B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +97,7 @@
 			files = (
 				BFDB8F132436561000FE022B /* HotKey.framework in Frameworks */,
 				BFDB8F172436562A00FE022B /* PINCache.framework in Frameworks */,
+				BF86DBF62445055B00A0A43F /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +153,9 @@
 				BFDB8EE924355E8E00FE022B /* Main.storyboard */,
 				BFDB8EEC24355E8E00FE022B /* Info.plist */,
 				BFDB8EE424355E8A00FE022B /* CopyPasta.xcdatamodeld */,
+				BF86DBF7244505A400A0A43F /* Sharp Fart.wav */,
+				BF86DBFB244508E000A0A43F /* Lawn Mower Fart.wav */,
+				BF86DBF9244505CF00A0A43F /* Quick Fart.wav */,
 			);
 			path = CopyPasta;
 			sourceTree = "<group>";
@@ -169,6 +181,7 @@
 		BFDB8F112436561000FE022B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF86DBF52445055B00A0A43F /* AVFoundation.framework */,
 				BFDB8F162436562A00FE022B /* PINCache.framework */,
 				BFDB8F122436561000FE022B /* HotKey.framework */,
 			);
@@ -280,8 +293,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF86DBFC244508E000A0A43F /* Lawn Mower Fart.wav in Resources */,
 				BFDB8F102436527100FE022B /* Cartfile in Resources */,
+				BF86DBF8244505A400A0A43F /* Sharp Fart.wav in Resources */,
 				BFDB8EE824355E8E00FE022B /* Assets.xcassets in Resources */,
+				BF86DBFA244505CF00A0A43F /* Quick Fart.wav in Resources */,
 				BFDB8EEB24355E8E00FE022B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

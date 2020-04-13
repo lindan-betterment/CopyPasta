@@ -8,7 +8,6 @@
 
 import Cocoa
 import PINCache
-
 // hashing for quick duplicate check
 import CommonCrypto
 
