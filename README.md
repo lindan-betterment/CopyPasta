@@ -43,8 +43,9 @@ In MacOS, [there is currently no better way to monitor the pasteboard for change
 
 A global hotkey listener waits for the keypress combination (⌘ + ^ + v). Upon keypress, it will bring up the list of copied items either in the menu bar popover or a separate window. (TBD) The list is retrieved from the aforementioned key value store.
 
-## Logo
-Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-food-icons/restaurant-pasta-icon-icon). Thank you!
+## Resources
+Logo attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-food-icons/restaurant-pasta-icon-icon). Thank you!
+Sound files from [soundbible.com](https://soundbible.com)
 
 ## Thank you
 [RayWenderlich was a priceless resource for MacOS application development.](https://www.raywenderlich.com/) Thank you!
@@ -53,6 +54,7 @@ Attributed to [IconKing from freeicons.io](https://freeicons.io/restaurant-and-f
 - Reformat image (big) and text (scroll)
 - Shortcuts
 - Option to reorder menu
-- Fix whitespace
 - drag and drop
 - Add PDF formats
+- click away from pop over
+- highlight current thing on pasteboard

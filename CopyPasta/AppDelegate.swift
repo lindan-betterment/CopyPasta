@@ -44,30 +44,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let popover = NSPopover()
     
     @objc func togglePopover(_ sender: Any?) {
-        
-      if popover.isShown {
-        closePopover(sender: sender)
-      } else {
-        showPopover(sender: sender)
-      }
+        if popover.isShown {
+            closePopover(sender: sender)
+        }
+        else {
+            showPopover(sender: sender)
+        }
     }
 
     func showPopover(sender: Any?) {
-      if let button = statusItem.button {
-        popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-      }
+        if let button = statusItem.button {
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
     }
 
     func closePopover(sender: Any?) {
-      popover.performClose(sender)
+        popover.performClose(sender)
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
          
         if let button = statusItem.button {
-          button.image = NSImage(named:NSImage.Name("pasta"))
-          button.action = #selector(togglePopover(_:))
+            button.image = NSImage(named:NSImage.Name("pasta"))
+            button.action = #selector(togglePopover(_:))
         }
         popover.contentViewController = ClipViewController.freshController()
         
@@ -99,19 +99,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     menu_string = read!.first!.string(forType: .string)!
                     data = NSString(utf8String: menu_string)
                 }
-                
-                /*
-                // Image support
-                guard let data = self.pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage], let firstText = data.first else { return }
-                print(firstText)
-                // set NSImage name
-                firstText.setName(String(self.hash))
-                print(firstText.name()!)
-                
-                // show supposrted imsge types
-                
-                print(firstText.representations[0])
-                 */
                 
                 // Get hash
                 let key = String(menu_string.sha1())
