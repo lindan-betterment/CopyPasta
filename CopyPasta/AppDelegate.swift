@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let popover = NSPopover()
     
     @objc func togglePopover(_ sender: Any?) {
+        
       if popover.isShown {
         closePopover(sender: sender)
       } else {
@@ -63,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+         
         if let button = statusItem.button {
           button.image = NSImage(named:NSImage.Name("pasta"))
           button.action = #selector(togglePopover(_:))
@@ -237,6 +239,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         // If we got here, it is time to quit.
         return .terminateNow
+    }
+    
+    func applicationWillResignActive(_ notification: Notification) {
+        print("resign active")
     }
 }
 
