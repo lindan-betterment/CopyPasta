@@ -56,5 +56,4 @@ Sound files from [soundbible.com](https://soundbible.com)
 - Option to reorder menu
 - drag and drop
 - Add PDF formats
-- click away from pop over
-- highlight current thing on pasteboard
+- highlighr current thing on pasteboard
