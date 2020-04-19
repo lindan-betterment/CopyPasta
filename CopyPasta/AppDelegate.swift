@@ -8,7 +8,8 @@
 
 import Cocoa
 import PINCache
-// hashing for quick duplicate check
+// Hashing for quick duplicate check
+// Pasteboard hash is not unique
 import CommonCrypto
 
 extension String {
@@ -55,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func showPopover(sender: Any?) {
         if let button = statusItem.button {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            // Hide when focus lost
             popover.behavior = NSPopover.Behavior.transient
         }
     }
