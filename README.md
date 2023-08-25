@@ -2,8 +2,6 @@
 
 CopyPasta is yet another unobtrusive clipboard extension for MacOS. CopyPasta stores the last n(TBD) items that were copied onto the clipboard and can paste any of the items selected. There will be no support for any MacOS versions previous to Catalina.
 
-This is a tool I created for personal use.
-
 ## Why use CopyPasta?
 
 - I made this.
